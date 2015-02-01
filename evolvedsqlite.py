@@ -10,21 +10,25 @@ def evolvedb(path, database):
 			cursor = conn.cursor()
 			setupRegistryTable(cursor)
 			latestVersion = determineLatestVersion(cursor)
-			files = sortNumberedSqlFiles(filterInstalledVersion(determineEvolveScripts(path), latestVersion))
-			for fname in files
-				with open(fname, 'r') as f:
-				isUpgrade = True
-					for line in f:
-						line = line.rstrip()
-						if line.startswith("//--downgrade"):
-							isUpgrade = False
-						if isUpgrade:
-							if "" != line and not line.startswith("//"):
-								print("Executing: '" + line + "'")
-								cursor.execute(line)
-						else:
-							if "" != line and not line.startswith("//"):
-								loadIntoDowngrade(cursor, line, fname)
+			originalFileList = determineEvolveScripts(path)
+			files = sortNumberedSqlFiles(filterInstalledVersion(originalFileList, latestVersion))
+			if files:
+				for fname in files
+					with open(fname, 'r') as f:
+					isUpgrade = True
+						for line in f:
+							line = line.rstrip()
+							if line.startswith("//--downgrade"):
+								isUpgrade = False
+							if isUpgrade:
+								if "" != line and not line.startswith("//"):
+									print("Executing: '" + line + "'")
+									cursor.execute(line)
+							else:
+								if "" != line and not line.startswith("//"):
+									loadIntoDowngrade(cursor, line, fname)
+			else:
+				runDowngrade(originalFileList, cursor)
 						
 
 def determineEvolveScripts(path):
