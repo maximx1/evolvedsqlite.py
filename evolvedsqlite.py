@@ -33,3 +33,4 @@ def runDowngrade(files, cursor):
 	cursor.execute("SELECT downgrades from evolutionRegistry where scriptNumber > ? order by scriptNumber, id", (latestFileNumber,))
 	for statementRow in cursor.fetchall():
 		cursor.execute(statementRow[0])
+	cursor.execute("DELETE from downgrades where scriptNumber > ?", (latestFileNumber,))
