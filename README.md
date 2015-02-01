@@ -1,6 +1,8 @@
 evolvedsqlite.py
 ================
 
+## Script is completely untested. Use at your own risk.
+
 ### Description
 Python based simple evolution (schema versioning) for sqlite. This is similar to [Play2 framework's evolutions](https://www.playframework.com/documentation/2.0/Evolutions).
 
