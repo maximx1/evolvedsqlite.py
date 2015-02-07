@@ -30,14 +30,22 @@ def evolvedb(path, database):
 			else:
 				runDowngrade(originalFileList, cursor)
 						
-
+"""
+	Finds all sql files following the format of <number>.sql
+"""
 def determineEvolveScripts(path):
 	_, _, files	= walk(path)
 	return list(filter(lambda x: re.match('\d+\.sql', x), files))
 
+"""
+	Filters down the file versions to include only those not installed.
+"""
 def filterInstalledVersion(files, latestVersion):
 	return list(filter(lambda x: int(x[:-4]) > latestVersion, files))
 
+"""
+	Sort the sql files numerically in ascending order.
+"""
 def sortNumberedSqlFiles(files):
 	return sorted(files, key=lambda x: int(x[:-4]))
 
