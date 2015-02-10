@@ -13,9 +13,9 @@ def evolvedb(path, database):
 			originalFileList = determineEvolveScripts(path)
 			files = sortNumberedSqlFiles(filterInstalledVersion(originalFileList, latestVersion))
 			if files:
-				for fname in files
+				for fname in files:
 					with open(fname, 'r') as f:
-					isUpgrade = True
+						isUpgrade = True
 						for line in f:
 							line = line.rstrip()
 							if line.startswith("//--downgrade"):
