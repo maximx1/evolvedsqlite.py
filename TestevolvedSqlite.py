@@ -1,9 +1,27 @@
 import unittest
+import os
+import os.path
+import shutil
 from evolvedsqlite import *
 
 class TestEvolvedSqlite(unittest.TestCase):
 	def setUp(self):
 		self.files = ["1.sql", "2.sql", "3.sql", "4.sql"]
+		self.testDir = "test_dir"
+
+	def setUpTestDir(self, filesToCreate):
+		self.scrubTestBed()
+		os.makedirs(self.testDir)
+		list(map(lambda x: open(self.testDir + "/" + x, 'w').close(), filesToCreate))
+	
+	def scrubTestBed(self):
+		if os.path.exists(self.testDir):
+			shutil.rmtree(self.testDir)
+
+	def test_setTmp(self):
+		self.setUpTestDir(self.files)
+		self.scrubTestBed()
+		self.assertTrue(True)
 
 	def test_filterInstalledVersionCanFilterAllVersions(self):
 		self.assertListEqual(filterInstalledVersion(self.files, 4), [])
