@@ -34,7 +34,7 @@ def evolvedb(path, database):
 	Finds all sql files following the format of <number>.sql
 """
 def determineEvolveScripts(path):
-	_, _, files	= walk(path)
+	_, _, files	= next(walk(path))
 	return list(filter(lambda x: re.match('\d+\.sql', x), files))
 
 """
