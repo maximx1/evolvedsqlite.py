@@ -23,6 +23,26 @@ class TestEvolvedSqlite(unittest.TestCase):
 		self.scrubTestBed()
 		self.assertTrue(True)
 
+	def test_canFindAllSqlFilesInDirectoryIfAllFilesAreNumberedSql(self):
+		self.setUpTestDir(self.files)
+		self.assertListEqual(sorted(determineEvolveScripts(self.testDir), key=lambda x: int(x[:-4])), self.files)
+		self.scrubTestBed()
+
+	def test_canFindAllSqlFilesInDirectoryIfNotAllFilesAreNumberedButAreSql(self):
+		self.setUpTestDir(self.files + ["dummy.sql"])
+		self.assertListEqual(sorted(determineEvolveScripts(self.testDir), key=lambda x: int(x[:-4])), self.files)
+		self.scrubTestBed()
+
+	def test_canFindAllSqlFilesInDirectoryIfNotAllFilesAreNumberedAndAllSql(self):
+		self.setUpTestDir(self.files + ["dummy.txt"])
+		self.assertListEqual(sorted(determineEvolveScripts(self.testDir), key=lambda x: int(x[:-4])), self.files)
+		self.scrubTestBed()
+
+	#def test_canFindAllSqlFilesInDirectoryIfThereIsADirectoryPresent(self):
+	#	self.setUpTestDir(self.files.append("dummy.sql"))
+	#	self.assertListEqual(sorted(determineEvolveScripts(self.testDir), key=lambda x: int(x[:-4])), self.files)
+	#	self.scrubTestBed()
+
 	def test_filterInstalledVersionCanFilterAllVersions(self):
 		self.assertListEqual(filterInstalledVersion(self.files, 4), [])
 
