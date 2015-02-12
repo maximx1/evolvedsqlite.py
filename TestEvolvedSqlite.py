@@ -39,6 +39,11 @@ class TestEvolvedSqlite(unittest.TestCase):
 		self.assertListEqual(sortNumberedSqlFiles(determineEvolveScripts(self.testDir)), self.files)
 		self.scrubTestBed()
 
+	def test_canFindNoSqlFilesIfNone(self):
+		self.setUpTestDir([])
+		self.assertListEqual(determineEvolveScripts(self.testDir), [])
+		self.scrubTestBed()
+	
 	def test_filterInstalledVersionCanFilterAllVersions(self):
 		self.assertListEqual(filterInstalledVersion(self.files, 4), [])
 
